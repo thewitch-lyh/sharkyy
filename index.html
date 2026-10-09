@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Sharky</title>
+<style>
+  :root{
+    --night:#070b22; --navy:#10183a; --blue:#8fdcff; --ice:#dff7ff;
+    --silver:#c7d5ec; --muted:#9baaca; --glass:rgba(17,27,63,.72);
+    --line:rgba(190,220,255,.18); --pink:#f3b9d5;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; min-height:100vh; color:var(--ice);
+    font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;
+    background:radial-gradient(ellipse at 50% -10%,#25366d 0%,#10183a 32%,#070b22 75%);
+    overflow-x:hidden;
+  }
+  #stars,.sparkles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .star{position:absolute;width:2px;height:2px;border-radius:50%;background:#e7f8ff;opacity:.65;animation:twinkle 3s infinite ease-in-out}
+  @keyframes twinkle{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.5)}}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+  @keyframes flicker{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.82);opacity:.75}}
+  @keyframes drift{from{transform:translateY(15vh) translateX(0) rotate(0)}to{transform:translateY(-115vh) translateX(45px) rotate(360deg)}}
+  header,main,footer{position:relative;z-index:1}
+  header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px clamp(18px,5vw,64px);border-bottom:1px solid rgba(210,235,255,.1);backdrop-filter:blur(12px)}
+  .brand{font-weight:900;letter-spacing:.08em;font-size:.92rem}
+  .brand span{color:var(--blue)}
+  .top-pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--silver);font-size:.78rem;background:#ffffff08}
+  main{max-width:1050px;margin:0 auto;padding:28px 20px 72px}
+  .nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 32px}
+  .nav button,.btn{
+    border:1px solid var(--line);background:#ffffff08;color:var(--ice);
+    padding:11px 16px;border-radius:999px;cursor:pointer;font:inherit;font-size:.9rem;
+    transition:transform .2s,border-color .2s,background .2s;
+  }
+  .nav button:hover,.nav button.active,.btn.primary{background:linear-gradient(135deg,#9be3ff28,#b6c8ff20);border-color:#9fdfff88}
+  button:hover{transform:translateY(-2px)}
+  button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .page{display:none;animation:pop .45s ease both}
+  .page.active{display:block}
+  .hero{text-align:center;padding:clamp(24px,6vw,62px) 10px 42px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.22em;color:var(--blue);font-size:.72rem;font-weight:800}
+  h1{font-size:clamp(3rem,10vw,6.8rem);line-height:.95;letter-spacing:-.065em;margin:18px 0 20px}
+  h1 .shine{background:linear-gradient(120deg,#fff,#8edfff 42%,#c4cfff 75%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:clamp(1.8rem,5vw,3rem);letter-spacing:-.04em;margin:12px 0}
+  p{line-height:1.75;color:#c1cde7}
+  .sub{max-width:570px;margin:0 auto 26px;font-size:1.05rem}
+  .shark{font-size:clamp(4rem,12vw,7rem);display:inline-block;animation:floaty 3.8s ease-in-out infinite;filter:drop-shadow(0 12px 24px #7fdfff30)}
+  .hero-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .btn.primary{font-weight:800;background:linear-gradient(135deg,#80d9ff30,#b7c8ff30)}
+  .tiny-note{font-size:.78rem;color:#8192b9;margin-top:22px}
+  .panel{background:linear-gradient(145deg,rgba(28,43,89,.78),rgba(11,17,45,.78));border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,34px);box-shadow:0 24px 70px #0002;backdrop-filter:blur(12px)}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+  .mini-card{border:1px solid var(--line);border-radius:20px;padding:20px;background:#ffffff06}
+  .mini-card .emoji{font-size:1.8rem}
+  .mini-card h3{margin:10px 0 5px}
+  .mini-card p{font-size:.92rem;margin:0}
+  .section-head{text-align:center;margin:20px 0 26px}
+  .section-head p{max-width:540px;margin:8px auto}
+  .letter{font-size:1.02rem;max-width:680px;margin:auto}
+  .letter strong{color:#e4f8ff}
+  .signature{color:var(--blue);font-weight:800;margin-top:22px}
+  .cake-area{text-align:center;padding:10px 0 4px}
+  .cake{position:relative;width:220px;height:190px;margin:30px auto 22px;cursor:pointer;filter:drop-shadow(0 15px 20px #0004);animation:bob 3s ease-in-out infinite}
+  .cake-base{position:absolute;bottom:15px;left:15px;width:190px;height:85px;border-radius:12px 12px 22px 22px;background:linear-gradient(90deg,#a8caff,#eefaff 40%,#9bc9ff);box-shadow:inset 0 -12px #8eb5ef}
+  .cake-top{position:absolute;bottom:82px;left:15px;width:190px;height:35px;border-radius:50%;background:#f0d8ed;border:3px solid #d7eaff}
+  .icing{position:absolute;bottom:57px;left:15px;width:190px;height:38px;background:#d9c5f5;border-radius:0 0 16px 16px;clip-path:polygon(0 0,100% 0,100% 75%,88% 100%,77% 70%,65% 100%,51% 70%,38% 100%,24% 72%,12% 100%,0 75%)}
+  .candle{position:absolute;bottom:113px;left:105px;width:12px;height:42px;border-radius:5px;background:repeating-linear-gradient(45deg,#fff 0 7px,#8adfff 7px 14px);z-index:2}
+  .flame{position:absolute;bottom:153px;left:95px;font-size:24px;animation:flicker .7s infinite}
+  .sprinkle{position:absolute;bottom:90px;left:40px;font-size:20px;letter-spacing:8px;z-index:3}
+  .cake-hint{font-size:.82rem;color:#91a5ce}
+  .wish-result{min-height:38px;color:var(--blue);font-weight:800;margin-top:16px}
+  .memory-list{display:grid;gap:12px;max-width:700px;margin:24px auto 0}
+  .memory{display:flex;align-items:flex-start;gap:14px;padding:16px;border-radius:18px;background:#ffffff06;border:1px solid var(--line)}
+  .memory .ico{font-size:1.5rem}
+  .memory p{margin:3px 0 0;font-size:.93rem}
+  .reveal{display:none;margin-top:18px;padding:20px;border-radius:18px;background:#9fdfff0d;border:1px dashed #9fdfff55;animation:pop .35s ease}
+  .reveal.show{display:block}
+  .footer{text-align:center;color:#7282a8;font-size:.8rem;padding:26px 12px;border-top:1px solid #ffffff12}
+  .floating{position:fixed;bottom:-50px;z-index:3;pointer-events:none;animation:drift 8s linear forwards;opacity:.8}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:10;background:#e3f7ff;color:#0c1432;padding:12px 18px;border-radius:999px;font-weight:800;box-shadow:0 8px 30px #0004;display:none}
+  @media(max-width:620px){header{padding:16px}.grid{grid-template-columns:1fr}.nav{gap:6px}.nav button{padding:9px 12px;font-size:.82rem}.panel{border-radius:21px}.top-pill{font-size:.7rem}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="stars" aria-hidden="true"></div>
+<header>
+  <div class="brand">MIDNIGHT <span>CLUB</span> ✦</div>
+  <div class="top-pill">an birthday celebration</div>
+</header>
+
+<main>
+  <nav class="nav" aria-label="Birthday website pages">
+    <button class="active" data-page="home">Home ✦</button>
+    <button data-page="message">A tiny message 💌</button>
+    <button data-page="cake">Cake time 🎂</button>
+    <button data-page="shark">Sharky facts 🦈</button>
+    <button data-page="finale">One last thing 🌙</button>
+  </nav>
+
+  <section class="page active" id="home">
+    <div class="hero">
+      <div class="eyebrow">breaking news · today is your day</div>
+      <div class="shark" aria-label="shark">🦈</div>
+      <h1>HAPPY BIRTHDAY,<br><span class="shine">SHARKY.</span></h1>
+      <p class="sub">A whole tiny corner of the internet, made for one adorable menace. Yes, you. Don't let it get to your head, Kiddo. 💙</p>
+      <div class="hero-actions">
+        <button class="btn primary" data-go="cake">🎂 Report to the cake</button>
+        <button class="btn" data-go="message">💌 Open your message</button>
+      </div>
+      <p class="tiny-note">✦ best viewed while feeling ridiculously appreciated ✦</p>
+    </div>
+    <div class="grid">
+      <div class="mini-card"><div class="emoji">🌌</div><h3>Midnight magic</h3><p>For a birthday that deserves its own little universe.</p></div>
+      <div class="mini-card"><div class="emoji">🦈</div><h3>Sharkeddddd chaos</h3><p>Teasing more than affection.</p></div>
+    </div>
+  </section>
+
+  <section class="page" id="message">
+    <div class="section-head"><div class="eyebrow">page two · no escaping the wholesome bit</div><h2>A little message for you 💌</h2><p>Don't get emotional. Actually, do whatever you want. It's your birthday.</p></div>
+    <div class="panel letter">
+      <p>Happy birthday, <strong>Sharky</strong>!! 🦈💙</p>
+      <p>It's funny how people can just become part of your days, and suddenly you're glad you met them. I'm glad we met  and I'm glad there's now a certified <strong>Kiddo</strong> in my life to bother. 😭</p>
+      <p>I hope this new year brings you the kind of happiness that sneaks up on you, people who make you feel safe to be yourself, lots of reasons to laugh, and little moments that turn into favourite memories.</p>
+      <p>Keep being your adorable, chaotic, very-you self. I hope you never feel like you have to make yourself smaller to fit into someone else's world. You deserve good things, good people, and a birthday full of love.</p>
+      <p>And yes, even though we're the same age, the Kiddo title is permanent. Terms and conditions apply. No refunds. 💀</p>
+      <p class="signature">Have the loveliest birthday, Sharkoooowwwww. 🌙✨</p>
+    </div>
+  </section>
+
+  <section class="page" id="cake">
+    <div class="section-head"><div class="eyebrow">page three · highly important business</div><h2>The birthday cake🎂</h2><p>Tap the cake to blow out the candle. Make a wish, Kiddo.</p></div>
+    <div class="panel cake-area">
+      <div class="cake" id="cakeTap" role="button" tabindex="0" aria-label="Tap to blow out the birthday candle">
+        <div class="cake-base"></div><div class="cake-top"></div><div class="icing"></div>
+        <div class="candle"></div><div class="flame" id="flame">🔥</div><div class="sprinkle">✦ · ✦</div>
+      </div>
+      <div class="cake-hint" id="cakeHint">psst… the candle is waiting for you</div>
+      <button class="btn primary" id="blowBtn">Make a wish & blow! ✨</button>
+      <div class="wish-result" id="wishResult" aria-live="polite"></div>
+      <button class="btn" id="relightBtn" style="display:none">Relight the candle 🕯️</button>
+    </div>
+  </section>
+
+  <section class="page" id="shark">
+    <div class="section-head"><div class="eyebrow">page four · official shark documentation</div><h2>Sharky facts!</h2><p>Compiled by an extremely trustworthy source (me).</p></div>
+    <div class="grid">
+      <div class="mini-card"><div class="emoji">🦈</div><h3>Species</h3><p>Sharky. A rare midnight-ocean creature with suspiciously adorable energy. EMPLYINGGGG ur rare & adorable sooo matchesssss</p></div>
+      <div class="mini-card"><div class="emoji">🧸</div><h3>Also known as</h3><p>Kiddo. Despite the same age. The science is settled. Practicalllyyyy ur a kid</p></div>
+      <div class="mini-card"><div class="emoji">✨</div><h3>Special ability</h3><p>Being a little chaotic and still somehow getting away with it.I mean ok i expect thi from a kidd</p></div>
+      <div class="mini-card"><div class="emoji">💙</div><h3>Birthday buff</h3><p>+100 happiness, +50 sparkle, unlimited birthday privileges.</p></div>
+    </div>
+    <div class="panel" style="margin-top:18px;text-align:center">
+      <h3>Official birthday certificate</h3>
+      <p>This certifies that Sharky is allowed to be extra today, accept compliments without arguing, and have at least one very good snack.</p>
+      <button class="btn primary" id="certBtn">Claim certificate ✦</button>
+      <div class="reveal" id="certificate"><div style="font-size:2rem">🏆🦈</div><strong>THE WORLD'S MOST BIRTHDAY-ISH KIDDO</strong><p style="margin-bottom:0">Awarded to Sharky, on this very important day. Valid forever. Non-transferable.</p></div>
+    </div>
+  </section>
+
+  <section class="page" id="finale">
+    <div class="section-head"><div class="eyebrow">final page · one sincere moment</div><h2>Before you go… 🌙</h2></div>
+    <div class="panel" style="text-align:center">
+      <div class="shark" style="font-size:4rem">🦈💙</div>
+      <p style="max-width:590px;margin:18px auto">I'm glad we met, Sharky. I hope this year is gentle with you when you need gentleness, exciting when you need adventure, and full of people who remind you that you're appreciated.</p>
+      <p style="max-width:590px;margin:0 auto">Thanks for being you, you tiny ocean gremlin. Have the best birthday. You deserve it. ✨</p>
+      <p class="signature">— from your friend, with a little extra birthday sparkle</p>
+      <div class="hero-actions">
+        <button class="btn primary" id="confettiBtn">Celebrate again 🎉</button>
+        <button class="btn" data-go="home">Back to the beginning ↺</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">made with midnight blues, tiny stars & birthday affection ✦ happy birthday, Sharky</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Starfield background
+  const starField = document.getElementById('stars');
+  for(let i=0;i<95;i++){
+    const s=document.createElement('span'); s.className='star';
+    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*4)+'s';
+    s.style.animationDuration=(2+Math.random()*4)+'s';
+    s.style.width=s.style.height=(1+Math.random()*2.2)+'px';
+    starField.appendChild(s);
+  }
+
+  // Simple multi-page navigation
+  const pages=[...document.querySelectorAll('.page')];
+  const navButtons=[...document.querySelectorAll('.nav button')];
+  function showPage(id){
+    pages.forEach(p=>p.classList.toggle('active',p.id===id));
+    navButtons.forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(id==='finale') sprinkle(18);
+  }
+  navButtons.forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));
+
+  // Birthday cake interaction
+  let blown=false;
+  const flame=document.getElementById('flame'), cakeHint=document.getElementById('cakeHint');
+  const wishResult=document.getElementById('wishResult'), relightBtn=document.getElementById('relightBtn');
+  function blowOut(){
+    if(blown)return;
+    blown=true; flame.style.display='none';
+    cakeHint.textContent='candle blown out. wish officially sent to the universe 🌠';
+    wishResult.textContent='✨ WISH SENT! ✨';
+    relightBtn.style.display='inline-block';
+    sprinkle(34); toast('Birthday wish launched successfully 🚀');
+  }
+  document.getElementById('blowBtn').addEventListener('click',blowOut);
+  document.getElementById('cakeTap').addEventListener('click',blowOut);
+  document.getElementById('cakeTap').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();blowOut()}});
+  relightBtn.addEventListener('click',()=>{
+    blown=false;flame.style.display='block';cakeHint.textContent='psst… the candle is waiting for you';
+    wishResult.textContent='';relightBtn.style.display='none';
+  });
+
+  // Certificate reveal
+  document.getElementById('certBtn').addEventListener('click',()=>{
+    document.getElementById('certificate').classList.add('show');
+    sprinkle(22); toast('Certificate officially awarded 🏆');
+  });
+
+  // Floating celebratory emojis
+  function sprinkle(amount=20){
+    const icons=['✦','✨','💙','🦈','⭐','🎉'];
+    for(let i=0;i<amount;i++){
+      const el=document.createElement('div');el.className='floating';
+      el.textContent=icons[Math.floor(Math.random()*icons.length)];
+      el.style.left=Math.random()*100+'vw';
+      el.style.fontSize=(14+Math.random()*20)+'px';
+      el.style.animationDuration=(4+Math.random()*5)+'s';
+      el.style.animationDelay=(Math.random()*.7)+'s';
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),10000);
+    }
+  }
+  let toastTimer;
+  function toast(message){
+    const el=document.getElementById('toast');el.textContent=message;el.style.display='block';
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display='none',2400);
+  }
+  document.getElementById('confettiBtn').addEventListener('click',()=>{sprinkle(65);toast('SHARKY DAYYYYY 🎉🦈')});
+</script>
+</body>
+</html>
